@@ -14,16 +14,15 @@ export default function TimelinePage() {
       <div style={{ marginBottom: '3rem' }}>
         <h2
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '2.2rem',
-            fontWeight: 300,
+            fontSize: '2rem',
+            fontWeight: 400,
             color: 'var(--text-primary)',
             marginBottom: '0.5rem',
           }}
         >
           Línea de Tiempo
         </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
           Año astrológico 2026 – 2027 · {CYCLES.length} ciclos · 52 fases lunares
         </p>
       </div>
@@ -41,7 +40,7 @@ export default function TimelinePage() {
         >
           <div
             style={{
-              fontSize: '0.65rem',
+              fontSize: '0.8rem',
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
               color: 'var(--accent)',
@@ -55,14 +54,13 @@ export default function TimelinePage() {
             <div>
               <div
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '1.25rem',
+                  fontSize: '1.35rem',
                   fontWeight: 400,
                 }}
               >
                 {current.phase.name} · {current.cycle.glyph} {current.cycle.sign}
               </div>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
                 {current.phase.theme}
               </div>
             </div>
@@ -87,8 +85,7 @@ export default function TimelinePage() {
             >
               <span
                 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '1.6rem',
+                  fontSize: '1.8rem',
                   color: 'var(--accent)',
                 }}
               >
@@ -97,8 +94,7 @@ export default function TimelinePage() {
               <div>
                 <div
                   style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: '1.2rem',
+                    fontSize: '1.3rem',
                     fontWeight: 400,
                     color: 'var(--text-primary)',
                   }}
@@ -108,7 +104,7 @@ export default function TimelinePage() {
                     <span
                       style={{
                         marginLeft: '0.5rem',
-                        fontSize: '0.6rem',
+                        fontSize: '0.75rem',
                         letterSpacing: '0.1em',
                         textTransform: 'uppercase',
                         padding: '0.15rem 0.4rem',
@@ -122,7 +118,7 @@ export default function TimelinePage() {
                     </span>
                   )}
                 </div>
-                <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
+                <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                   {cycle.period} · {cycle.centralTheme}
                 </div>
               </div>

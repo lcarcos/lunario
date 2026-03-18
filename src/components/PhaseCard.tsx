@@ -39,12 +39,11 @@ export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
           textAlign: 'left',
         }}
       >
-        <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{phase.moon}</span>
+        <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>{phase.moon}</span>
         <div style={{ flex: 1 }}>
           <div
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '1.05rem',
+              fontSize: '1.15rem',
               color: 'var(--text-primary)',
             }}
           >
@@ -53,7 +52,7 @@ export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
               <span
                 style={{
                   marginLeft: '0.5rem',
-                  fontSize: '0.6rem',
+                  fontSize: '0.7rem',
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
                   padding: '0.15rem 0.4rem',
@@ -67,7 +66,7 @@ export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
               </span>
             )}
           </div>
-          <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
+          <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
             {formatDate(phase.date)}
             {phase.isSolarEvent && (
               <span style={{ marginLeft: '0.5rem', color: 'var(--accent)' }}>
@@ -98,8 +97,7 @@ export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
           {/* Theme */}
           <p
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '1.1rem',
+              fontSize: '1.15rem',
               fontStyle: 'italic',
               color: 'var(--text-primary)',
               lineHeight: 1.4,
@@ -112,7 +110,7 @@ export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
           <div>
             <div
               style={{
-                fontSize: '0.65rem',
+                fontSize: '0.8rem',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 color: 'var(--text-secondary)',
@@ -126,7 +124,7 @@ export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
                 <li
                   key={i}
                   style={{
-                    fontSize: '0.85rem',
+                    fontSize: '1rem',
                     color: 'var(--text-secondary)',
                     paddingLeft: '1rem',
                     position: 'relative',

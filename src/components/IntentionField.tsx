@@ -81,7 +81,7 @@ export default function IntentionField({ phaseId }: IntentionFieldProps) {
     <div>
       <div
         style={{
-          fontSize: '0.65rem',
+          fontSize: '0.8rem',
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
           color: 'var(--text-secondary)',
@@ -102,7 +102,7 @@ export default function IntentionField({ phaseId }: IntentionFieldProps) {
           borderRadius: 8,
           padding: '0.65rem 0.8rem',
           color: 'var(--text-primary)',
-          fontSize: '0.9rem',
+          fontSize: '1rem',
           fontFamily: "'DM Sans', sans-serif",
           fontWeight: 300,
           resize: 'vertical',
@@ -122,7 +122,7 @@ export default function IntentionField({ phaseId }: IntentionFieldProps) {
         }}
       >
         {saved ? (
-          <span style={{ fontSize: '0.75rem', color: 'var(--accent)' }}>✓ Guardada</span>
+          <span style={{ fontSize: '0.9rem', color: 'var(--accent)' }}>✓ Guardada</span>
         ) : (
           <span />
         )}
@@ -135,7 +135,7 @@ export default function IntentionField({ phaseId }: IntentionFieldProps) {
             border: '1px solid var(--border)',
             background: dirty ? 'var(--accent)' : 'transparent',
             color: dirty ? 'var(--bg)' : 'var(--text-secondary)',
-            fontSize: '0.78rem',
+            fontSize: '0.9rem',
             cursor: dirty ? 'pointer' : 'not-allowed',
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 400,

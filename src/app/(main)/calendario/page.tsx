@@ -190,14 +190,13 @@ function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
         }}
       >
         <div>
-          <div style={{ color: 'var(--text-secondary)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.3rem' }}>
+          <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.3rem' }}>
             {dayOfWeek}
           </div>
           <div
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '1.5rem',
-              fontWeight: 300,
+              fontSize: '1.6rem',
+              fontWeight: 400,
               lineHeight: 1.1,
             }}
           >
@@ -208,18 +207,18 @@ function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
           {activeMoon && (
             <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '1rem' }}>{activeMoon.moon}</span>
-              <span style={{ color: 'var(--accent)', fontSize: '0.75rem' }}>
+              <span style={{ color: 'var(--accent)', fontSize: '0.9rem' }}>
                 {exactPhase ? activeMoon.name : `En ${activeMoon.name}`}
               </span>
               {cycle && (
-                <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
+                <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                   · {cycle.glyph} {cycle.sign}
                 </span>
               )}
               {exactPhase?.isSolarEvent && (
                 <span
                   style={{
-                    fontSize: '0.6rem',
+                    fontSize: '0.75rem',
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                     padding: '0.1rem 0.4rem',
@@ -239,9 +238,9 @@ function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
             <p
               style={{
                 marginTop: '0.6rem',
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: "'DM Sans', sans-serif",
                 fontStyle: 'italic',
-                fontSize: '0.95rem',
+                fontSize: '1.05rem',
                 color: 'var(--text-secondary)',
                 lineHeight: 1.5,
                 maxWidth: 420,
@@ -271,7 +270,7 @@ function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
 
       {/* Task list */}
       <div style={{ padding: '1rem 1.5rem' }}>
-        <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
+        <div style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
           Actividades del día
         </div>
 
@@ -299,7 +298,7 @@ function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
                 <span
                   style={{
                     flex: 1,
-                    fontSize: '0.875rem',
+                    fontSize: '1rem',
                     color: task.done ? 'var(--text-secondary)' : 'var(--text-primary)',
                     textDecoration: task.done ? 'line-through' : 'none',
                     lineHeight: 1.4,
@@ -333,7 +332,7 @@ function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
               borderRadius: 8,
               background: 'transparent',
               color: 'var(--text-primary)',
-              fontSize: '0.875rem',
+              fontSize: '1rem',
               outline: 'none',
               fontFamily: 'inherit',
             }}
@@ -358,7 +357,7 @@ function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
         {/* Suggestions from phase on exact phase days */}
         {exactPhase && exactPhase.suggestions.length > 0 && (
           <div style={{ marginTop: '1.25rem' }}>
-            <div style={{ fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '0.6rem' }}>
+            <div style={{ fontSize: '0.8rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: '0.6rem' }}>
               Sugerencias lunares
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
@@ -372,7 +371,7 @@ function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
                     border: 'none',
                     cursor: 'pointer',
                     color: 'var(--text-secondary)',
-                    fontSize: '0.8rem',
+                    fontSize: '0.95rem',
                     padding: '0.2rem 0',
                     display: 'flex',
                     alignItems: 'flex-start',
@@ -465,14 +464,13 @@ export default function CalendarioPage() {
       <div style={{ marginBottom: '2rem' }}>
         <h2
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '2.2rem',
-            fontWeight: 300,
+            fontSize: '2rem',
+            fontWeight: 400,
           }}
         >
           Planificador Lunar
         </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
           Haz clic en cualquier día para añadir actividades
         </p>
       </div>
@@ -492,7 +490,7 @@ export default function CalendarioPage() {
         >
           <ChevronLeft size={20} />
         </button>
-        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.4rem' }}>
+        <div style={{ fontSize: '1.5rem' }}>
           {MONTHS_ES[viewMonth]} {viewYear}
         </div>
         <button
@@ -506,7 +504,7 @@ export default function CalendarioPage() {
       {/* Day labels — Monday first */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.25rem', marginBottom: '0.4rem' }}>
         {DAYS_ES.map((d) => (
-          <div key={d} style={{ textAlign: 'center', fontSize: '0.65rem', color: 'var(--text-secondary)', padding: '0.2rem 0', letterSpacing: '0.05em' }}>
+          <div key={d} style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-secondary)', padding: '0.2rem 0', letterSpacing: '0.05em' }}>
             {d}
           </div>
         ))}
@@ -551,7 +549,7 @@ export default function CalendarioPage() {
               {/* Day number */}
               <span
                 style={{
-                  fontSize: '0.78rem',
+                  fontSize: '0.9rem',
                   fontWeight: isToday ? 500 : 300,
                   color: isToday ? 'var(--accent)' : 'var(--text-primary)',
                   lineHeight: 1,
@@ -562,9 +560,9 @@ export default function CalendarioPage() {
 
               {/* Moon emoji — show for phase days, tiny dot for others in range */}
               {exactPhase ? (
-                <span style={{ fontSize: '0.7rem', lineHeight: 1 }}>{exactPhase.moon}</span>
+                <span style={{ fontSize: '0.85rem', lineHeight: 1 }}>{exactPhase.moon}</span>
               ) : activeMoon ? (
-                <span style={{ fontSize: '0.45rem', lineHeight: 1, opacity: 0.4 }}>{activeMoon.moon}</span>
+                <span style={{ fontSize: '0.55rem', lineHeight: 1, opacity: 0.4 }}>{activeMoon.moon}</span>
               ) : null}
 
               {/* Task dot */}
@@ -595,7 +593,7 @@ export default function CalendarioPage() {
           marginTop: '1rem',
           flexWrap: 'wrap',
           color: 'var(--text-secondary)',
-          fontSize: '0.7rem',
+          fontSize: '0.8rem',
         }}
       >
         {(['🌑 Luna Nueva', '🌓 Cuarto Creciente', '🌕 Luna Llena', '🌗 Cuarto Menguante'] as const).map((label) => (

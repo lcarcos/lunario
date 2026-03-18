@@ -67,9 +67,8 @@ export default function Navigation() {
         <div style={{ marginBottom: '2.5rem' }}>
           <h1
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: '1.7rem',
-              fontWeight: 300,
+              fontSize: '1.8rem',
+              fontWeight: 400,
               color: 'var(--accent)',
               letterSpacing: '0.04em',
             }}
@@ -78,7 +77,7 @@ export default function Navigation() {
           </h1>
           <p
             style={{
-              fontSize: '0.7rem',
+              fontSize: '0.8rem',
               color: 'var(--text-secondary)',
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
@@ -103,7 +102,7 @@ export default function Navigation() {
                   gap: '0.6rem',
                   padding: '0.55rem 0.75rem',
                   borderRadius: '8px',
-                  fontSize: '0.85rem',
+                  fontSize: '0.95rem',
                   fontWeight: active ? 500 : 300,
                   color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
                   background: active ? 'var(--card-bg)' : 'transparent',
@@ -135,7 +134,7 @@ export default function Navigation() {
             background: 'transparent',
             color: 'var(--text-secondary)',
             cursor: 'pointer',
-            fontSize: '0.8rem',
+            fontSize: '0.9rem',
           }}
         >
           {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
@@ -208,8 +207,8 @@ export default function Navigation() {
                 textDecoration: 'none',
               }}
             >
-              <Icon size={20} />
-              <span style={{ fontSize: '0.65rem' }}>{label}</span>
+              <Icon size={22} />
+              <span style={{ fontSize: '0.75rem' }}>{label}</span>
             </Link>
           );
         })}
@@ -228,8 +227,8 @@ export default function Navigation() {
             cursor: 'pointer',
           }}
         >
-          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          <span style={{ fontSize: '0.65rem' }}>Tema</span>
+          {theme === 'dark' ? <Sun size={22} /> : <Moon size={22} />}
+          <span style={{ fontSize: '0.75rem' }}>Tema</span>
         </button>
 
         {user ? (
@@ -248,7 +247,7 @@ export default function Navigation() {
             }}
           >
             <LogOut size={20} className="text-red-500" />
-            <span style={{ fontSize: '0.65rem' }}>Salir</span>
+            <span style={{ fontSize: '0.75rem' }}>Salir</span>
           </button>
         ) : (
           <button
@@ -266,7 +265,7 @@ export default function Navigation() {
             }}
           >
             <User size={20} className="text-terracotta-600 dark:text-terracotta-400" />
-            <span style={{ fontSize: '0.65rem' }}>Login</span>
+            <span style={{ fontSize: '0.75rem' }}>Login</span>
           </button>
         )}
       </nav>
