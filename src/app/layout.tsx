@@ -22,6 +22,15 @@ export const metadata: Metadata = {
   title: 'Lunário · Ciclos & Metas',
   description:
     'Planificación anual guiada por los ciclos lunares y astrológicos. Slow Productivity para emprendedores.',
+  manifest: '/manifest.webmanifest',
+  icons: {
+    apple: '/apple-icon.png',
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Lunário',
+  },
 };
 
 export const viewport: Viewport = {
