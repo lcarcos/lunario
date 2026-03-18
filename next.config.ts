@@ -1,7 +1,13 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    // No React Compiler in this setup
+  },
+  // Ensure image domains if needed
+  images: {
+    domains: [],
+  },
 };
 
 export default nextConfig;
