@@ -1,6 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
 
 interface IntentionFieldProps {
   phaseId: string;
@@ -11,12 +13,39 @@ export default function IntentionField({ phaseId }: IntentionFieldProps) {
   const [saved, setSaved] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  
+  const supabase = createClient();
 
-  // Load from localStorage on mount (offline-first; replace with Supabase when auth is connected)
   useEffect(() => {
-    const stored = localStorage.getItem(`intention:${phaseId}`);
-    if (stored) setValue(stored);
-  }, [phaseId]);
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+      if (data.user) {
+        // Load from DB if logged in
+        supabase
+          .from('intentions')
+          .select('value')
+          .eq('phase_id', phaseId)
+          .single()
+          .then(({ data: intentionData, error }) => {
+            if (intentionData) {
+              setValue(intentionData.value);
+            } else {
+              if (error && error.code !== 'PGRST116') {
+                console.error(error);
+              }
+              // Fallback to local
+              const stored = localStorage.getItem(`intention:${phaseId}`);
+              if (stored) setValue(stored);
+            }
+          });
+      } else {
+        // Load from localStorage
+        const stored = localStorage.getItem(`intention:${phaseId}`);
+        if (stored) setValue(stored);
+      }
+    });
+  }, [phaseId, supabase]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
@@ -24,16 +53,28 @@ export default function IntentionField({ phaseId }: IntentionFieldProps) {
     setSaved(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (isLoading) return;
     setIsLoading(true);
-    // Offline-first: save to localStorage
+    
+    if (user) {
+      const { error } = await supabase
+        .from('intentions')
+        .upsert(
+          { user_id: user.id, phase_id: phaseId, value },
+          { onConflict: 'user_id, phase_id' }
+        );
+      if (error) {
+        console.error('Error saving intention:', error);
+      }
+    }
+    
+    // Always save to local storage as fallback/offline
     localStorage.setItem(`intention:${phaseId}`, value);
-    setTimeout(() => {
-      setIsLoading(false);
-      setSaved(true);
-      setDirty(false);
-    }, 400);
+    
+    setIsLoading(false);
+    setSaved(true);
+    setDirty(false);
   };
 
   return (

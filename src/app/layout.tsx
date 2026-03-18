@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import Navigation from '@/components/Navigation';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -44,15 +43,7 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider>
-          <div style={{ display: 'flex', minHeight: '100vh' }}>
-            <Navigation />
-            <main
-              style={{ flex: 1, paddingBottom: '5rem' }}
-              className="md:ml-[220px] md:pb-0"
-            >
-              {children}
-            </main>
-          </div>
+          {children}
         </ThemeProvider>
       </body>
     </html>

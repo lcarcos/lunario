@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getAllPhases, getCurrentCycleAndPhase, CYCLES, Phase } from '@/lib/data';
 import { ChevronLeft, ChevronRight, CheckSquare, Square, Plus, Trash2 } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
 
 const MONTHS_ES = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -60,7 +62,7 @@ function getExactPhase(dateStr: string, allPhases: Phase[]): Phase | null {
 }
 
 // ── Task storage ──────────────────────────────────────────────
-interface Task { id: string; text: string; done: boolean }
+interface Task { id: string; text: string; done: boolean; date_str?: string }
 
 function loadTasks(dateStr: string): Task[] {
   if (typeof window === 'undefined') return [];
@@ -86,10 +88,12 @@ function hasTasks(dateStr: string): boolean {
 }
 
 // ── Day Panel ─────────────────────────────────────────────────
-function DayPanel({ dateStr, allPhases, onClose }: {
+function DayPanel({ dateStr, allPhases, onClose, user, onTasksChange }: {
   dateStr: string;
   allPhases: Phase[];
   onClose: () => void;
+  user: User | null;
+  onTasksChange: () => void;
 }) {
   const exactPhase = getExactPhase(dateStr, allPhases);
   const activeMoon = getActiveMoonForDate(dateStr, allPhases);
@@ -98,32 +102,64 @@ function DayPanel({ dateStr, allPhases, onClose }: {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [input, setInput] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
+  const supabase = createClient();
 
   useEffect(() => {
-    setTasks(loadTasks(dateStr));
+    if (user) {
+      supabase.from('activities').select('*').eq('date_str', dateStr).eq('user_id', user.id).then(({ data }) => {
+        if (data) setTasks(data);
+      });
+    } else {
+      setTasks(loadTasks(dateStr));
+    }
     setInput('');
     setTimeout(() => inputRef.current?.focus(), 50);
-  }, [dateStr]);
+  }, [dateStr, user, supabase]);
 
   const persistAndSet = useCallback((next: Task[]) => {
     setTasks(next);
     saveTasks(dateStr, next);
   }, [dateStr]);
 
-  const addTask = () => {
+  const addTask = async () => {
     const text = input.trim();
     if (!text) return;
-    const next = [...tasks, { id: Date.now().toString(), text, done: false }];
-    persistAndSet(next);
     setInput('');
+    
+    if (user) {
+      const { data } = await supabase.from('activities').insert({ user_id: user.id, date_str: dateStr, text, done: false }).select().single();
+      if (data) {
+        setTasks(prev => [...prev, data]);
+        onTasksChange();
+      }
+    } else {
+      const next = [...tasks, { id: Date.now().toString(), text, done: false }];
+      persistAndSet(next);
+      onTasksChange();
+    }
   };
 
-  const toggleTask = (id: string) => {
-    persistAndSet(tasks.map((t) => t.id === id ? { ...t, done: !t.done } : t));
+  const toggleTask = async (id: string) => {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    
+    if (user) {
+      setTasks(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
+      await supabase.from('activities').update({ done: !task.done }).eq('id', id);
+    } else {
+      persistAndSet(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
+    }
   };
 
-  const deleteTask = (id: string) => {
-    persistAndSet(tasks.filter((t) => t.id !== id));
+  const deleteTask = async (id: string) => {
+    if (user) {
+      setTasks(tasks.filter(t => t.id !== id));
+      await supabase.from('activities').delete().eq('id', id);
+      onTasksChange();
+    } else {
+      persistAndSet(tasks.filter((t) => t.id !== id));
+      onTasksChange();
+    }
   };
 
   // Format date for display
@@ -365,6 +401,38 @@ export default function CalendarioPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(todayStr);
   const [, forceUpdate] = useState(0);
 
+  const [user, setUser] = useState<User | null>(null);
+  const [activeDates, setActiveDates] = useState<Set<string>>(new Set());
+  const supabase = createClient();
+
+  const loadActiveDates = useCallback(async (currUser: User | null) => {
+    if (currUser) {
+      const { data } = await supabase.from('activities').select('date_str').eq('user_id', currUser.id);
+      if (data) {
+        setActiveDates(new Set(data.map(d => d.date_str)));
+      }
+    } else {
+      const localDates = new Set<string>();
+      if (typeof window !== 'undefined') {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('tasks:')) {
+            const val = localStorage.getItem(key);
+            if (val && val !== '[]') localDates.add(key.replace('tasks:', ''));
+          }
+        }
+      }
+      setActiveDates(localDates);
+    }
+  }, [supabase]);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+      loadActiveDates(data.user);
+    });
+  }, [supabase, loadActiveDates]);
+
   const allPhases = getAllPhases();
   const days = getCalendarDays(viewYear, viewMonth);
 
@@ -453,7 +521,7 @@ export default function CalendarioPage() {
           const activeMoon = getActiveMoonForDate(dateStr, allPhases);
           const isToday = dateStr === todayStr;
           const isSelected = dateStr === selectedDate;
-          const hasEntries = hasTasks(dateStr);
+          const hasEntries = activeDates.has(dateStr);
 
           return (
             <button
@@ -553,6 +621,8 @@ export default function CalendarioPage() {
           dateStr={selectedDate}
           allPhases={allPhases}
           onClose={handleClose}
+          user={user}
+          onTasksChange={() => loadActiveDates(user)}
         />
       )}
     </div>

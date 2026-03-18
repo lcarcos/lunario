@@ -1,12 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from '@/components/ThemeProvider';
-import { Moon, Sun, LayoutList, Grid3X3, CalendarDays } from 'lucide-react';
+import { Moon, Sun, LayoutList, Grid3X3, CalendarDays, LogOut, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { createClient } from '@/lib/supabase/client';
+import { User as SupabaseUser } from '@supabase/supabase-js';
+import { useState, useEffect } from 'react';
 
-const NAV_ITEMS = [
+const navItems = [
   { href: '/', label: 'Línea de Tiempo', icon: LayoutList },
   { href: '/ciclos', label: 'Por Ciclo', icon: Grid3X3 },
   { href: '/calendario', label: 'Calendario', icon: CalendarDays },
@@ -14,7 +17,33 @@ const NAV_ITEMS = [
 
 export default function Navigation() {
   const pathname = usePathname();
+  const router = useRouter();
   const { theme, toggle } = useTheme();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    // Buscar sessão atual ao montar
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data?.user ?? null);
+    });
+
+    // Escutar mudanças de autenticação (login, logout, etc)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      if (!session) {
+        router.refresh();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase, router]);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/login');
+  };
 
   return (
     <>
@@ -62,7 +91,7 @@ export default function Navigation() {
 
         {/* Nav links */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-          {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+          {navItems.map(({ href, label, icon: Icon }) => {
             const active = pathname === href;
             return (
               <Link
@@ -112,6 +141,39 @@ export default function Navigation() {
           {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
           {theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
         </button>
+
+        {/* Auth Section Desktop */}
+        <div className="mt-8 border-t border-sand-200 dark:border-obsidian-700 pt-6">
+          {user ? (
+            <div className="flex flex-col items-center sm:items-start gap-4">
+              <div className="flex items-center gap-3 px-3 w-full">
+                <div className="w-8 h-8 rounded-full bg-terracotta-100 dark:bg-terracotta-900 flex items-center justify-center text-terracotta-700 dark:text-terracotta-300 font-bold shrink-0">
+                  {user.email?.[0].toUpperCase()}
+                </div>
+                <div className="text-sm truncate w-full flex-1 max-w-[120px] text-obsidian-600 dark:text-sand-300 hidden sm:block">
+                  {user.email}
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center w-full px-4 py-3 text-sm rounded-xl text-obsidian-500 hover:bg-red-50 hover:text-red-600 dark:text-sand-400 dark:hover:bg-red-900/20 dark:hover:text-red-400 transition-colors"
+                title="Cerrar sesión"
+              >
+                <LogOut className="w-5 h-5 sm:mr-3 shrink-0" />
+                <span className="hidden sm:inline">Cerrar sesión</span>
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => router.push('/login')}
+              className="flex items-center w-full px-4 py-3 text-sm rounded-xl bg-terracotta-600 hover:bg-terracotta-700 text-white transition-colors"
+              title="Iniciar sesión"
+            >
+              <User className="w-5 h-5 sm:mr-3 shrink-0" />
+              <span className="hidden sm:inline font-medium">Iniciar sesión</span>
+            </button>
+          )}
+        </div>
       </nav>
 
       {/* Mobile bottom bar */}
@@ -130,7 +192,7 @@ export default function Navigation() {
           padding: '0.6rem 0',
         }}
       >
-        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+        {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (
             <Link
@@ -151,6 +213,7 @@ export default function Navigation() {
             </Link>
           );
         })}
+        
         <button
           onClick={toggle}
           style={{
@@ -168,6 +231,44 @@ export default function Navigation() {
           {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           <span style={{ fontSize: '0.65rem' }}>Tema</span>
         </button>
+
+        {user ? (
+          <button
+            onClick={handleLogout}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.25rem',
+              padding: '0.25rem 1rem',
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--text-secondary)',
+              cursor: 'pointer',
+            }}
+          >
+            <LogOut size={20} className="text-red-500" />
+            <span style={{ fontSize: '0.65rem' }}>Salir</span>
+          </button>
+        ) : (
+          <button
+            onClick={() => router.push('/login')}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.25rem',
+              padding: '0.25rem 1rem',
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--text-secondary)',
+              cursor: 'pointer',
+            }}
+          >
+            <User size={20} className="text-terracotta-600 dark:text-terracotta-400" />
+            <span style={{ fontSize: '0.65rem' }}>Login</span>
+          </button>
+        )}
       </nav>
     </>
   );
