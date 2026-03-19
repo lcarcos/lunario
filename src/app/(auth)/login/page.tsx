@@ -76,11 +76,9 @@ export default function LoginPage() {
     <div style={{
       minHeight: '100dvh',
       display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      flexDirection: 'column',
       padding: '2rem 1.5rem',
       position: 'relative',
-      overflow: 'hidden',
       backgroundColor: 'var(--bg)',
       color: 'var(--text-primary)',
     }}>
@@ -101,6 +99,7 @@ export default function LoginPage() {
       <div style={{
         width: '100%',
         maxWidth: '400px',
+        margin: 'auto',
         padding: '2.5rem 1.75rem 2rem',
         borderRadius: '1.25rem',
         border: '1px solid var(--border)',
