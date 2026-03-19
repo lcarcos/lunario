@@ -9,20 +9,11 @@ export default function TimelinePage() {
   const current = getCurrentCycleAndPhase();
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto', padding: '2.5rem 1.5rem' }}>
+    <div className="page-container">
       {/* Page header */}
-      <div style={{ marginBottom: '3rem' }}>
-        <h2
-          style={{
-            fontSize: '2rem',
-            fontWeight: 400,
-            color: 'var(--text-primary)',
-            marginBottom: '0.5rem',
-          }}
-        >
-          Línea de Tiempo
-        </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
+      <div style={{ marginBottom: '2.5rem' }}>
+        <h2 className="page-title">Línea de Tiempo</h2>
+        <p className="page-subtitle">
           Año astrológico 2026 – 2027 · {CYCLES.length} ciclos · 52 fases lunares
         </p>
       </div>
@@ -38,15 +29,7 @@ export default function TimelinePage() {
             background: 'var(--card-bg)',
           }}
         >
-          <div
-            style={{
-              fontSize: '0.8rem',
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--accent)',
-              marginBottom: '0.4rem',
-            }}
-          >
+          <div className="section-label" style={{ color: 'var(--accent)', marginBottom: '0.4rem', letterSpacing: '0.15em' }}>
             ✦ Fase Actual
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -124,8 +107,8 @@ export default function TimelinePage() {
               </div>
             </div>
 
-            {/* Phases */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {/* Phases — grid: 1 col mobile, 2 cols desktop */}
+            <div className="phase-grid">
               {cycle.phases.map((phase) => (
                 <PhaseCard
                   key={phase.id}

@@ -51,10 +51,10 @@ export default function Navigation() {
       <nav
         className="hidden md:flex flex-col"
         style={{
-          width: 220,
+          width: 260,
           minHeight: '100vh',
           borderRight: '1px solid var(--border)',
-          padding: '2rem 1.5rem',
+          padding: '2.5rem 1.75rem',
           gap: '0.5rem',
           position: 'fixed',
           top: 0,
@@ -67,7 +67,7 @@ export default function Navigation() {
         <div style={{ marginBottom: '2.5rem' }}>
           <h1
             style={{
-              fontSize: '1.8rem',
+              fontSize: '2rem',
               fontWeight: 400,
               color: 'var(--accent)',
               letterSpacing: '0.04em',
@@ -77,7 +77,7 @@ export default function Navigation() {
           </h1>
           <p
             style={{
-              fontSize: '0.8rem',
+              fontSize: '0.85rem',
               color: 'var(--text-secondary)',
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
@@ -99,10 +99,10 @@ export default function Navigation() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.6rem',
-                  padding: '0.55rem 0.75rem',
+                  gap: '0.7rem',
+                  padding: '0.6rem 0.85rem',
                   borderRadius: '8px',
-                  fontSize: '0.95rem',
+                  fontSize: '1rem',
                   fontWeight: active ? 500 : 300,
                   color: active ? 'var(--text-primary)' : 'var(--text-secondary)',
                   background: active ? 'var(--card-bg)' : 'transparent',
@@ -112,7 +112,7 @@ export default function Navigation() {
                 }}
               >
                 <Icon
-                  size={15}
+                  size={17}
                   style={{ color: active ? 'var(--accent)' : 'var(--text-secondary)' }}
                 />
                 {label}
@@ -186,7 +186,6 @@ export default function Navigation() {
           borderTop: '1px solid var(--border)',
           background: 'var(--bg)',
           zIndex: 100,
-          display: 'flex',
           justifyContent: 'space-around',
           padding: '0.6rem 0',
         }}

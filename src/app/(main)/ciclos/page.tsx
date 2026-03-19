@@ -17,18 +17,11 @@ export default function CiclosPage() {
   const next = () => setActiveCycleId((id) => Math.min(CYCLES.length - 1, id + 1));
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto', padding: '2.5rem 1.5rem' }}>
+    <div className="page-container">
       {/* Page header */}
       <div style={{ marginBottom: '2rem' }}>
-        <h2
-          style={{
-            fontSize: '2rem',
-            fontWeight: 400,
-          }}
-        >
-          Por Ciclo
-        </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
+        <h2 className="page-title">Por Ciclo</h2>
+        <p className="page-subtitle">
           Explora cada signo y sus cuatro fases lunares
         </p>
       </div>
@@ -63,143 +56,139 @@ export default function CiclosPage() {
         ))}
       </div>
 
-      {/* Hero card */}
-      <div
-        key={cycle.id}
-        style={{
-          border: '1px solid var(--border)',
-          borderRadius: 14,
-          padding: '1.75rem',
-          marginBottom: '1.75rem',
-          background: 'var(--card-bg)',
-        }}
-        className="animate-fade-in"
-      >
-        {/* Navigation arrows */}
+      {/* Hero card + phases — side by side on desktop */}
+      <div className="ciclo-layout">
+        {/* Hero card */}
         <div
+          key={cycle.id}
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            marginBottom: '1rem',
+            border: '1px solid var(--border)',
+            borderRadius: 14,
+            padding: '1.75rem',
+            background: 'var(--card-bg)',
           }}
+          className="animate-fade-in ciclo-hero"
         >
-          <button
-            onClick={prev}
-            disabled={activeCycleId === 0}
+          {/* Navigation arrows */}
+          <div
             style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: activeCycleId === 0 ? 'not-allowed' : 'pointer',
-              color: activeCycleId === 0 ? 'var(--border)' : 'var(--text-secondary)',
-              padding: '0.25rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              marginBottom: '1rem',
             }}
           >
-            <ChevronLeft size={18} />
-          </button>
+            <button
+              onClick={prev}
+              disabled={activeCycleId === 0}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: activeCycleId === 0 ? 'not-allowed' : 'pointer',
+                color: activeCycleId === 0 ? 'var(--border)' : 'var(--text-secondary)',
+                padding: '0.25rem',
+              }}
+            >
+              <ChevronLeft size={18} />
+            </button>
 
-          {/* Glyph + title */}
-          <div style={{ textAlign: 'center', flex: 1 }}>
-            <div
-              style={{
-                fontSize: '3.5rem',
-                color: 'var(--accent)',
-                lineHeight: 1,
-              }}
-            >
-              {cycle.glyph}
-            </div>
-            <div
-              style={{
-                fontSize: '1.7rem',
-                fontWeight: 400,
-                marginTop: '0.25rem',
-              }}
-            >
-              {cycle.sign}
-            </div>
-            <div style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: '0.2rem' }}>
-              {cycle.period}
-            </div>
-            {cycle.isFree && (
-              <span
+            {/* Glyph + title */}
+            <div style={{ textAlign: 'center', flex: 1 }}>
+              <div
                 style={{
-                  display: 'inline-block',
-                  marginTop: '0.4rem',
-                  fontSize: '0.75rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  padding: '0.15rem 0.5rem',
-                  borderRadius: 4,
-                  border: '1px solid var(--accent)',
+                  fontSize: '3.5rem',
                   color: 'var(--accent)',
+                  lineHeight: 1,
                 }}
               >
-                Acceso Gratuito
-              </span>
-            )}
+                {cycle.glyph}
+              </div>
+              <div
+                style={{
+                  fontSize: '1.7rem',
+                  fontWeight: 400,
+                  marginTop: '0.25rem',
+                }}
+              >
+                {cycle.sign}
+              </div>
+              <div style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: '0.2rem' }}>
+                {cycle.period}
+              </div>
+              {cycle.isFree && (
+                <span
+                  style={{
+                    display: 'inline-block',
+                    marginTop: '0.4rem',
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    padding: '0.15rem 0.5rem',
+                    borderRadius: 4,
+                    border: '1px solid var(--accent)',
+                    color: 'var(--accent)',
+                  }}
+                >
+                  Acceso Gratuito
+                </span>
+              )}
+            </div>
+
+            <button
+              onClick={next}
+              disabled={activeCycleId === CYCLES.length - 1}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: activeCycleId === CYCLES.length - 1 ? 'not-allowed' : 'pointer',
+                color:
+                  activeCycleId === CYCLES.length - 1 ? 'var(--border)' : 'var(--text-secondary)',
+                padding: '0.25rem',
+              }}
+            >
+              <ChevronRight size={18} />
+            </button>
           </div>
 
-          <button
-            onClick={next}
-            disabled={activeCycleId === CYCLES.length - 1}
+          {/* Theme */}
+          <p
             style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: activeCycleId === CYCLES.length - 1 ? 'not-allowed' : 'pointer',
-              color:
-                activeCycleId === CYCLES.length - 1 ? 'var(--border)' : 'var(--text-secondary)',
-              padding: '0.25rem',
+              textAlign: 'center',
+              color: 'var(--text-secondary)',
+              fontSize: '1rem',
+              fontStyle: 'italic',
+              marginBottom: '0.5rem',
             }}
           >
-            <ChevronRight size={18} />
-          </button>
+            {cycle.centralTheme}
+          </p>
+          <p
+            style={{
+              textAlign: 'center',
+              color: 'var(--text-secondary)',
+              fontSize: '0.95rem',
+              lineHeight: 1.5,
+            }}
+          >
+            {cycle.description}
+          </p>
         </div>
 
-        {/* Theme */}
-        <p
-          style={{
-            textAlign: 'center',
-            color: 'var(--text-secondary)',
-            fontSize: '1rem',
-            fontStyle: 'italic',
-            marginBottom: '0.5rem',
-          }}
-        >
-          {cycle.centralTheme}
-        </p>
-        <p
-          style={{
-            textAlign: 'center',
-            color: 'var(--text-secondary)',
-            fontSize: '0.95rem',
-            lineHeight: 1.5,
-          }}
-        >
-          {cycle.description}
-        </p>
-      </div>
-
-      {/* 4 Phases */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-        <div
-          style={{
-            fontSize: '0.8rem',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: 'var(--text-secondary)',
-            marginBottom: '0.25rem',
-          }}
-        >
-          4 Fases del Ciclo
+        {/* 4 Phases */}
+        <div>
+          <div className="section-label" style={{ marginBottom: '0.75rem' }}>
+            4 Fases del Ciclo
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {cycle.phases.map((phase) => (
+              <PhaseCard
+                key={phase.id}
+                phase={phase}
+                isCurrentPhase={current?.phase.id === phase.id}
+              />
+            ))}
+          </div>
         </div>
-        {cycle.phases.map((phase) => (
-          <PhaseCard
-            key={phase.id}
-            phase={phase}
-            isCurrentPhase={current?.phase.id === phase.id}
-          />
-        ))}
       </div>
     </div>
   );

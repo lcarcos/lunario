@@ -8,10 +8,7 @@ export default function MainLayout({
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <Navigation />
-      <main
-        style={{ flex: 1, paddingBottom: '5rem' }}
-        className="md:ml-[220px] md:pb-0"
-      >
+      <main className="main-content">
         {children}
       </main>
     </div>

@@ -459,170 +459,171 @@ export default function CalendarioPage() {
   };
 
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto', padding: '2.5rem 1.5rem' }}>
+    <div className="page-container">
       {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
-        <h2
-          style={{
-            fontSize: '2rem',
-            fontWeight: 400,
-          }}
-        >
-          Planificador Lunar
-        </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '1rem' }}>
+        <h2 className="page-title">Planificador Lunar</h2>
+        <p className="page-subtitle">
           Haz clic en cualquier día para añadir actividades
         </p>
       </div>
 
-      {/* Month navigation */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '1.25rem',
-        }}
-      >
-        <button
-          onClick={prevMonth}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: '0.25rem' }}
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <div style={{ fontSize: '1.5rem' }}>
-          {MONTHS_ES[viewMonth]} {viewYear}
-        </div>
-        <button
-          onClick={nextMonth}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: '0.25rem' }}
-        >
-          <ChevronRight size={20} />
-        </button>
-      </div>
-
-      {/* Day labels — Monday first */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.25rem', marginBottom: '0.4rem' }}>
-        {DAYS_ES.map((d) => (
-          <div key={d} style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-secondary)', padding: '0.2rem 0', letterSpacing: '0.05em' }}>
-            {d}
+      <div className="calendario-wrapper">
+        {/* Day panel — on desktop appears as sidebar */}
+        {selectedDate && (
+          <div className="calendario-panel">
+            <DayPanel
+              dateStr={selectedDate}
+              allPhases={allPhases}
+              onClose={handleClose}
+              user={user}
+              onTasksChange={() => loadActiveDates(user)}
+            />
           </div>
-        ))}
-      </div>
+        )}
 
-      {/* Calendar grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.25rem' }}>
-        {days.map((dateStr, i) => {
-          if (!dateStr) return <div key={`empty-${i}`} />;
-
-          const exactPhase = getExactPhase(dateStr, allPhases);
-          const activeMoon = getActiveMoonForDate(dateStr, allPhases);
-          const isToday = dateStr === todayStr;
-          const isSelected = dateStr === selectedDate;
-          const hasEntries = activeDates.has(dateStr);
-
-          return (
+        {/* Calendar grid section */}
+        <div className="calendario-grid-section">
+          {/* Month navigation */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '1.25rem',
+            }}
+          >
             <button
-              key={dateStr}
-              onClick={() => handleSelectDate(dateStr)}
-              title={exactPhase ? `${exactPhase.moon} ${exactPhase.name}` : activeMoon ? activeMoon.moon : ''}
-              style={{
-                aspectRatio: '1',
-                border: `1px solid ${isSelected ? 'var(--accent)' : isToday ? 'var(--accent)' : 'var(--border)'}`,
-                borderRadius: 8,
-                background: isSelected
-                  ? 'var(--card-hover)'
-                  : isToday
-                    ? 'var(--card-bg)'
-                    : 'transparent',
-                cursor: 'pointer',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.1rem',
-                transition: 'all 0.15s',
-                position: 'relative',
-                opacity: exactPhase ? 1 : activeMoon ? 0.85 : 0.6,
-              }}
+              onClick={prevMonth}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: '0.25rem' }}
             >
-              {/* Day number */}
+              <ChevronLeft size={20} />
+            </button>
+            <div style={{ fontSize: '1.5rem' }}>
+              {MONTHS_ES[viewMonth]} {viewYear}
+            </div>
+            <button
+              onClick={nextMonth}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: '0.25rem' }}
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+
+          {/* Day labels — Monday first */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.25rem', marginBottom: '0.4rem' }}>
+            {DAYS_ES.map((d) => (
+              <div key={d} style={{ textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-secondary)', padding: '0.2rem 0', letterSpacing: '0.05em' }}>
+                {d}
+              </div>
+            ))}
+          </div>
+
+          {/* Calendar grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.25rem' }}>
+            {days.map((dateStr, i) => {
+              if (!dateStr) return <div key={`empty-${i}`} />;
+
+              const exactPhase = getExactPhase(dateStr, allPhases);
+              const activeMoon = getActiveMoonForDate(dateStr, allPhases);
+              const isToday = dateStr === todayStr;
+              const isSelected = dateStr === selectedDate;
+              const hasEntries = activeDates.has(dateStr);
+
+              return (
+                <button
+                  key={dateStr}
+                  onClick={() => handleSelectDate(dateStr)}
+                  title={exactPhase ? `${exactPhase.moon} ${exactPhase.name}` : activeMoon ? activeMoon.moon : ''}
+                  style={{
+                    aspectRatio: '1',
+                    border: `1px solid ${isSelected ? 'var(--accent)' : isToday ? 'var(--accent)' : 'var(--border)'}`,
+                    borderRadius: 8,
+                    background: isSelected
+                      ? 'var(--card-hover)'
+                      : isToday
+                        ? 'var(--card-bg)'
+                        : 'transparent',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.1rem',
+                    transition: 'all 0.15s',
+                    position: 'relative',
+                    opacity: exactPhase ? 1 : activeMoon ? 0.85 : 0.6,
+                  }}
+                >
+                  {/* Day number */}
+                  <span
+                    style={{
+                      fontSize: '0.9rem',
+                      fontWeight: isToday ? 500 : 300,
+                      color: isToday ? 'var(--accent)' : 'var(--text-primary)',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {parseInt(dateStr.split('-')[2])}
+                  </span>
+
+                  {/* Moon emoji — show for phase days, tiny dot for others in range */}
+                  {exactPhase ? (
+                    <span style={{ fontSize: '0.85rem', lineHeight: 1 }}>{exactPhase.moon}</span>
+                  ) : activeMoon ? (
+                    <span style={{ fontSize: '0.55rem', lineHeight: 1, opacity: 0.4 }}>{activeMoon.moon}</span>
+                  ) : null}
+
+                  {/* Task dot */}
+                  {hasEntries && (
+                    <span
+                      style={{
+                        width: 4,
+                        height: 4,
+                        borderRadius: '50%',
+                        background: 'var(--accent)',
+                        position: 'absolute',
+                        bottom: 4,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                      }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Legend */}
+          <div
+            style={{
+              display: 'flex',
+              gap: '1rem',
+              marginTop: '1rem',
+              flexWrap: 'wrap',
+              color: 'var(--text-secondary)',
+              fontSize: '0.8rem',
+            }}
+          >
+            {(['🌑 Luna Nueva', '🌓 Cuarto Creciente', '🌕 Luna Llena', '🌗 Cuarto Menguante'] as const).map((label) => (
+              <span key={label}>{label}</span>
+            ))}
+            <span style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
               <span
                 style={{
-                  fontSize: '0.9rem',
-                  fontWeight: isToday ? 500 : 300,
-                  color: isToday ? 'var(--accent)' : 'var(--text-primary)',
-                  lineHeight: 1,
+                  width: 5,
+                  height: 5,
+                  borderRadius: '50%',
+                  background: 'var(--accent)',
+                  display: 'inline-block',
                 }}
-              >
-                {parseInt(dateStr.split('-')[2])}
-              </span>
-
-              {/* Moon emoji — show for phase days, tiny dot for others in range */}
-              {exactPhase ? (
-                <span style={{ fontSize: '0.85rem', lineHeight: 1 }}>{exactPhase.moon}</span>
-              ) : activeMoon ? (
-                <span style={{ fontSize: '0.55rem', lineHeight: 1, opacity: 0.4 }}>{activeMoon.moon}</span>
-              ) : null}
-
-              {/* Task dot */}
-              {hasEntries && (
-                <span
-                  style={{
-                    width: 4,
-                    height: 4,
-                    borderRadius: '50%',
-                    background: 'var(--accent)',
-                    position: 'absolute',
-                    bottom: 4,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                  }}
-                />
-              )}
-            </button>
-          );
-        })}
+              />
+              Con actividades
+            </span>
+          </div>
+        </div>
       </div>
-
-      {/* Legend */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '1rem',
-          marginTop: '1rem',
-          flexWrap: 'wrap',
-          color: 'var(--text-secondary)',
-          fontSize: '0.8rem',
-        }}
-      >
-        {(['🌑 Luna Nueva', '🌓 Cuarto Creciente', '🌕 Luna Llena', '🌗 Cuarto Menguante'] as const).map((label) => (
-          <span key={label}>{label}</span>
-        ))}
-        <span style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-          <span
-            style={{
-              width: 5,
-              height: 5,
-              borderRadius: '50%',
-              background: 'var(--accent)',
-              display: 'inline-block',
-            }}
-          />
-          Con actividades
-        </span>
-      </div>
-
-      {/* Day panel */}
-      {selectedDate && (
-        <DayPanel
-          dateStr={selectedDate}
-          allPhases={allPhases}
-          onClose={handleClose}
-          user={user}
-          onTasksChange={() => loadActiveDates(user)}
-        />
-      )}
     </div>
   );
 }
+
