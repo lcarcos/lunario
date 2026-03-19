@@ -1,19 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSignUp, setIsSignUp] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const errorParam = searchParams.get('error');
+    if (errorParam) {
+      setError(errorParam);
+    }
+  }, [searchParams]);
   
-  const router = useRouter();
   const supabase = createClient();
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -46,6 +55,21 @@ export default function LoginPage() {
       }
     }
     setLoading(false);
+  };
+
+  const handleGoogleAuth = async () => {
+    setLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    if (error) {
+      setError("Error al conectar con Google.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -152,6 +176,55 @@ export default function LoginPage() {
             {successMessage}
           </div>
         )}
+
+        <button
+          type="button"
+          onClick={handleGoogleAuth}
+          disabled={loading}
+          style={{
+            width: '100%',
+            padding: '0.9rem',
+            marginBottom: '1.5rem',
+            borderRadius: '0.6rem',
+            border: '1px solid var(--border)',
+            backgroundColor: 'var(--card-bg)',
+            color: 'var(--text-primary)',
+            fontSize: '0.95rem',
+            fontWeight: 500,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.75rem',
+            transition: 'background 0.2s',
+            opacity: loading ? 0.7 : 1,
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'var(--card-bg)')}
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-1 7.28-2.69l-3.57-2.77c-.99.69-2.26 1.1-3.71 1.1-2.87 0-5.3-1.94-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.11a6.625 6.625 0 010-4.22V7.05H2.18a10.999 10.999 0 000 9.9l3.66-2.84z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.05l3.66 2.84c.87-2.6 3.3-4.51 6.16-4.51z" fill="#EA4335"/>
+          </svg>
+          {isSignUp ? 'Regístrate con Google' : 'Entrar con Google'}
+        </button>
+
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          textAlign: 'center',
+          color: 'var(--text-secondary)',
+          fontSize: '0.85rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          marginBottom: '1.5rem',
+        }}>
+          <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+          <span style={{ margin: '0 1rem' }}>o con email</span>
+          <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+        </div>
 
         <form onSubmit={handleAuth} style={{
           display: 'flex',
