@@ -4,6 +4,7 @@ import { CYCLES, getCurrentCycleAndPhase } from '@/lib/data';
 import { formatDate } from '@/lib/utils';
 import { useState } from 'react';
 import PhaseCard from '@/components/PhaseCard';
+import ExportCalendarButton from '@/components/ExportCalendarButton';
 
 export default function TimelinePage() {
   const current = getCurrentCycleAndPhase();
@@ -12,10 +13,15 @@ export default function TimelinePage() {
     <div className="page-container">
       {/* Page header */}
       <div style={{ marginBottom: '2.5rem' }}>
-        <h2 className="page-title">Línea de Tiempo</h2>
-        <p className="page-subtitle">
-          Año astrológico 2026 – 2027 · {CYCLES.length} ciclos · 52 fases lunares
-        </p>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <div>
+            <h2 className="page-title">Línea de Tiempo</h2>
+            <p className="page-subtitle">
+              Año astrológico 2026 – 2027 · {CYCLES.length} ciclos · 52 fases lunares
+            </p>
+          </div>
+          <ExportCalendarButton />
+        </div>
       </div>
 
       {/* Current phase banner */}

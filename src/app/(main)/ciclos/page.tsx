@@ -5,6 +5,7 @@ import { CYCLES, Cycle } from '@/lib/data';
 import PhaseCard from '@/components/PhaseCard';
 import { getCurrentCycleAndPhase } from '@/lib/data';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import ExportCalendarButton from '@/components/ExportCalendarButton';
 
 export default function CiclosPage() {
   const current = getCurrentCycleAndPhase();
@@ -20,10 +21,15 @@ export default function CiclosPage() {
     <div className="page-container">
       {/* Page header */}
       <div style={{ marginBottom: '2rem' }}>
-        <h2 className="page-title">Por Ciclo</h2>
-        <p className="page-subtitle">
-          Explora cada signo y sus cuatro fases lunares
-        </p>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <div>
+            <h2 className="page-title">Por Ciclo</h2>
+            <p className="page-subtitle">
+              Explora cada signo y sus cuatro fases lunares
+            </p>
+          </div>
+          <ExportCalendarButton />
+        </div>
       </div>
 
       {/* Cycle selector pills */}
