@@ -85,7 +85,7 @@ export default function ExportCalendarButton() {
             position: 'absolute',
             top: 'calc(100% + 6px)',
             right: 0,
-            background: 'var(--card-bg)',
+            background: 'var(--bg)',
             border: '1px solid var(--border)',
             borderRadius: 10,
             padding: '0.4rem',
