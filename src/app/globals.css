@@ -106,6 +106,7 @@ h1, h2, h3, h4 {
 .page-container {
   max-width: var(--content-max-width);
   padding: var(--content-padding);
+  margin: 0 auto;
 }
 
 .page-title {
@@ -176,24 +177,36 @@ h1, h2, h3, h4 {
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
-  max-width: 720px;
 }
 
 .ciclo-hero {
+  flex-shrink: 0;
   width: 100%;
+}
+
+.ciclo-content {
+  flex: 1;
+  min-width: 0;
 }
 
 /* ── Calendario Layout ────────────────────────────────────── */
 .calendario-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-width: 720px;
+  gap: 2rem;
 }
 
 .calendario-panel {
+  flex-shrink: 0;
   width: 100%;
 }
+
+.calendario-grid-section {
+  flex: 1;
+  min-width: 0;
+}
+
+
 
 /* ── Login Page ───────────────────────────────────────────── */
 .login-screen {
@@ -226,7 +239,7 @@ h1, h2, h3, h4 {
   padding: 2.5rem 1.75rem 2rem;
   border-radius: 1.25rem;
   border: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--card-bg);
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;

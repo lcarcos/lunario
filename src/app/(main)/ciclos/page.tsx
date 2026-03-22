@@ -181,7 +181,7 @@ export default function CiclosPage() {
         </div>
 
         {/* 4 Phases */}
-        <div>
+        <div className="ciclo-content">
           <div className="section-label" style={{ marginBottom: '0.75rem' }}>
             4 Fases del Ciclo
           </div>
