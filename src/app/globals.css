@@ -176,47 +176,23 @@ h1, h2, h3, h4 {
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
+  max-width: 720px;
 }
 
 .ciclo-hero {
-  max-width: 480px;
+  width: 100%;
 }
 
 /* ── Calendario Layout ────────────────────────────────────── */
 .calendario-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 1rem;
+  max-width: 720px;
 }
 
 .calendario-panel {
-  border-bottom: 1px solid var(--border);
-}
-
-@media (min-width: 768px) {
-  .calendario-wrapper {
-    flex-direction: row-reverse;
-    gap: 2rem;
-  }
-  .calendario-panel {
-    flex: 0 0 340px;
-    border-bottom: none;
-    border-left: 1px solid var(--border);
-    position: sticky;
-    top: 1rem;
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
-  }
-  .calendario-grid-section {
-    flex: 1;
-    min-width: 0;
-  }
-}
-
-@media (min-width: 1200px) {
-  .calendario-panel {
-    flex: 0 0 400px;
-  }
+  width: 100%;
 }
 
 /* ── Login Page ───────────────────────────────────────────── */
