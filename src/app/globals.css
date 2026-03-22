@@ -46,7 +46,7 @@
     --page-subtitle-size: 1.1rem;
     --section-label-size: 0.8rem;
     --card-padding: 1.1rem 1.3rem;
-    --phase-grid-columns: 2;
+    --phase-grid-columns: 1;
     --calendar-cell-min: 4rem;
   }
 }
@@ -178,27 +178,8 @@ h1, h2, h3, h4 {
   gap: 1.75rem;
 }
 
-@media (min-width: 768px) {
-  .ciclo-layout {
-    flex-direction: row;
-    gap: 2rem;
-    align-items: flex-start;
-  }
-  .ciclo-hero {
-    position: sticky;
-    top: 2rem;
-    flex: 0 0 380px;
-  }
-  .ciclo-layout > div:last-child {
-    flex: 1;
-    min-width: 0;
-  }
-}
-
-@media (min-width: 1200px) {
-  .ciclo-hero {
-    flex: 0 0 420px;
-  }
+.ciclo-hero {
+  max-width: 480px;
 }
 
 /* ── Calendario Layout ────────────────────────────────────── */
