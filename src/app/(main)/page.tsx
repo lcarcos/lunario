@@ -35,8 +35,13 @@ export default function TimelinePage() {
             background: 'var(--card-bg)',
           }}
         >
-          <div className="section-label" style={{ color: 'var(--accent)', marginBottom: '0.4rem', letterSpacing: '0.15em' }}>
-            ✦ Fase Actual
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+            <div className="section-label" style={{ color: 'var(--accent)', letterSpacing: '0.15em' }}>
+              ✦ Fase Actual
+            </div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+              Hoy es {formatDate(new Date().toISOString().split('T')[0])}
+            </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <span style={{ fontSize: '1.8rem' }}>{current.phase.moon}</span>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Phase } from '@/lib/data';
-import { formatDate } from '@/lib/utils';
+import { formatDate, isToday } from '@/lib/utils';
 import IntentionField from '@/components/IntentionField';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
@@ -13,6 +13,7 @@ interface PhaseCardProps {
 
 export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
   const [expanded, setExpanded] = useState(isCurrentPhase ?? false);
+  const showHoyBadge = isToday(phase.date);
 
   return (
     <div
@@ -48,7 +49,7 @@ export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
             }}
           >
             {phase.name}
-            {isCurrentPhase && (
+            {showHoyBadge && (
               <span
                 style={{
                   marginLeft: '0.5rem',
@@ -74,6 +75,11 @@ export default function PhaseCard({ phase, isCurrentPhase }: PhaseCardProps) {
               </span>
             )}
           </div>
+          {isCurrentPhase && !showHoyBadge && (
+            <div style={{ color: 'var(--accent)', fontSize: '0.85rem', marginTop: '0.3rem' }}>
+              → Hoy es {formatDate(new Date().toISOString().split('T')[0])}
+            </div>
+          )}
         </div>
         {expanded ? (
           <ChevronUp size={14} style={{ color: 'var(--text-secondary)', flexShrink: 0 }} />
