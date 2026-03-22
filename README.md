@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lunario 🌙
 
-## Getting Started
+Lunario is a modern, responsive web application for tracking astrological cycles and lunar phases. Designed for the 2026–2027 astrological year, it provides a comprehensive timeline, cycle insights, and a detailed calendar view to align your planning with the stars.
 
-First, run the development server:
+## 🚀 Features
+
+- **Astrological Timeline**: A comprehensive view of the 52 lunar phases across the astrological year.
+- **Cycle Insights ("Por Ciclo")**: Deep dive into specific astrological cycles (e.g., Aries, Taurus) and their 4 corresponding lunar phases (New, First Quarter, Full, Last Quarter).
+- **Interactive Calendar**: A detailed monthly grid view showing exactly when each phase begins.
+- **Current Phase Detection**: Instantly see today's lunar phase and astrological theme.
+- **Unified Single-Column Layout**: A harmonious, distraction-free reading experience that gracefully scales from mobile devices to ultra-wide desktop monitors.
+- **Dark Mode Optimized**: Built with a sleek, gold-accented dark theme for comfortable viewing.
+- **Calendar Export**: Easily export the year's events to integrate with your personal calendar.
+
+## 🛠️ Tech Stack
+
+This project is built using modern, bleeding-edge web technologies:
+
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+- **Library:** [React 19](https://react.dev/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Backend & Auth:** [Supabase](https://supabase.com/) & `@supabase/ssr`
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Dates Handling:** `date-fns`
+- **Language:** TypeScript
+
+## 📦 Getting Started
+
+First, install the dependencies. The project uses standard package managers (npm, yarn, pnpm, or bun):
+
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🗂️ Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/app/(main)/page.tsx` - The **Timeline** (Línea de Tiempo) view.
+- `src/app/(main)/ciclos/page.tsx` - The **Cycles** (Por Ciclo) view.
+- `src/app/(main)/calendario/page.tsx` - The **Calendar** (Calendario) grid view.
+- `src/app/globals.css` - Global styles, CSS variables, and layout directives.
+- `src/lib/data.ts` - Hardcoded definitions for the 2026-2027 astrological cycles and phases.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
+## 🌐 Deployment
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Any commits pushed to the `master` or `main` branch will automatically trigger a new deployment.
+
+---
+
+*Built for Poliphonia Studio.*
