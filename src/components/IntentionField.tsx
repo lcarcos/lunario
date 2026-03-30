@@ -21,23 +21,21 @@ export default function IntentionField({ phaseId }: IntentionFieldProps) {
     supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
       if (data.user) {
-        // Load from DB if logged in
-        supabase
-          .from('intentions')
-          .select('value')
-          .eq('phase_id', phaseId)
-          .single()
-          .then(({ data: intentionData, error }) => {
-            if (intentionData) {
-              setValue(intentionData.value);
+        // Load via encrypted API route
+        fetch(`/api/intentions?phase_id=${encodeURIComponent(phaseId)}`)
+          .then((res) => res.json())
+          .then((json) => {
+            if (json.value) {
+              setValue(json.value);
             } else {
-              if (error && error.code !== 'PGRST116') {
-                console.error(error);
-              }
               // Fallback to local
               const stored = localStorage.getItem(`intention:${phaseId}`);
               if (stored) setValue(stored);
             }
+          })
+          .catch(() => {
+            const stored = localStorage.getItem(`intention:${phaseId}`);
+            if (stored) setValue(stored);
           });
       } else {
         // Load from localStorage
@@ -58,14 +56,13 @@ export default function IntentionField({ phaseId }: IntentionFieldProps) {
     setIsLoading(true);
     
     if (user) {
-      const { error } = await supabase
-        .from('intentions')
-        .upsert(
-          { user_id: user.id, phase_id: phaseId, value },
-          { onConflict: 'user_id, phase_id' }
-        );
-      if (error) {
-        console.error('Error saving intention:', error);
+      const res = await fetch('/api/intentions', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phase_id: phaseId, value }),
+      });
+      if (!res.ok) {
+        console.error('Error saving intention');
       }
     }
     
