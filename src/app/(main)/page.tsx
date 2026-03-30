@@ -94,23 +94,7 @@ export default function TimelinePage() {
                   }}
                 >
                   {cycle.sign}
-                  {cycle.isFree && (
-                    <span
-                      style={{
-                        marginLeft: '0.5rem',
-                        fontSize: '0.75rem',
-                        letterSpacing: '0.1em',
-                        textTransform: 'uppercase',
-                        padding: '0.15rem 0.4rem',
-                        borderRadius: 4,
-                        border: '1px solid var(--accent)',
-                        color: 'var(--accent)',
-                        verticalAlign: 'middle',
-                      }}
-                    >
-                      Gratis
-                    </span>
-                  )}
+
                 </div>
                 <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
                   {cycle.period} · {cycle.centralTheme}

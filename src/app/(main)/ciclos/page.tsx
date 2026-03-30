@@ -121,23 +121,7 @@ export default function CiclosPage() {
               <div style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: '0.2rem' }}>
                 {cycle.period}
               </div>
-              {cycle.isFree && (
-                <span
-                  style={{
-                    display: 'inline-block',
-                    marginTop: '0.4rem',
-                    fontSize: '0.75rem',
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    padding: '0.15rem 0.5rem',
-                    borderRadius: 4,
-                    border: '1px solid var(--accent)',
-                    color: 'var(--accent)',
-                  }}
-                >
-                  Acceso Gratuito
-                </span>
-              )}
+
             </div>
 
             <button
