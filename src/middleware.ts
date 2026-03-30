@@ -36,9 +36,10 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isLoginPage = request.nextUrl.pathname.startsWith('/login');
+  const isAuthRoute = request.nextUrl.pathname.startsWith('/auth');
 
-  // Se o usuário não estiver logado e tentar acessar uma rota protegida (qualquer lugar menos /login), redireciona pro /login
-  if (!user && !isLoginPage) {
+  // Se o usuário não estiver logado e tentar acessar uma rota protegida (qualquer lugar menos /login e /auth/*), redireciona pro /login
+  if (!user && !isLoginPage && !isAuthRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
